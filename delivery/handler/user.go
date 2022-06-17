@@ -6,7 +6,7 @@ import (
 	"alterra/test/usecase"
 	"net/http"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type UserHandler struct {
@@ -22,7 +22,7 @@ func NewUserHandler(userUseCase usecase.UserUseCaseInterface) *UserHandler {
 func (userHandler *UserHandler) CreateUserHandler() echo.HandlerFunc {
 	return func(ctx echo.Context) error {
 		var newUser entities.User
-		if errBind := ctx.Bind(newUser); errBind != nil {
+		if errBind := ctx.Bind(&newUser); errBind != nil {
 			return ctx.JSON(http.StatusBadRequest, helper.ResponseFailed("Invalid request"))
 		}
 		sign, err := userHandler.UserUseCase.CreateUser(newUser)
