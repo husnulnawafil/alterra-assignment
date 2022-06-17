@@ -17,6 +17,5 @@ func NewUserUseCase(userRepo repository.UserRepositoryInterface) UserUseCaseInte
 
 func (userUseCase *UserUseCase) CreateUser(newUser entities.User) (int, error) {
 	err := userUseCase.UserRepository.CreateUser(newUser)
-
 	return 0, err
 }
