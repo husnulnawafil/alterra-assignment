@@ -133,7 +133,7 @@ func (userHandler *UserHandler) GetUserByIdHandler() echo.HandlerFunc {
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError, helper.ResponseFailed("Failed to get user"))
 		}
-		if user.Email == "" && user.Name == "" && user.Password == "" && user.Role == "" {
+		if user.Email == "" && user.Name == "" {
 			return ctx.JSON(http.StatusNotFound, helper.ResponseFailed("User not found"))
 		}
 		return ctx.JSON(http.StatusOK, helper.ResponseSuccess(fmt.Sprintf("Successfully get user with id %v", userID), user))
