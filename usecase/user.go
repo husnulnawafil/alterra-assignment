@@ -3,6 +3,7 @@ package usecase
 import (
 	"alterra/test/entities"
 	"alterra/test/repository"
+	"errors"
 
 	"github.com/jinzhu/copier"
 )
@@ -18,6 +19,18 @@ func NewUserUseCase(userRepo repository.UserRepositoryInterface) UserUseCaseInte
 }
 
 func (userUseCase *UserUseCase) CreateUser(newUser entities.User) (int, error) {
+	if newUser.Name == "" {
+		return 1, errors.New("not complete form")
+	}
+	if newUser.Email == "" {
+		return 1, errors.New("not complete form")
+	}
+	if newUser.Phone == "" {
+		return 1, errors.New("not complete form")
+	}
+	if newUser.Password == "" {
+		return 1, errors.New("not complete form")
+	}
 	err := userUseCase.UserRepository.CreateUser(newUser)
 	return 0, err
 }
