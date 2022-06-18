@@ -31,3 +31,8 @@ func (userRepo *UserRepository) DeleteUser(userID int) error {
 	err := userRepo.Database.Delete(&entities.User{}, userID).Error
 	return err
 }
+
+func (userRepo *UserRepository) UpdateUser(user entities.User) error {
+	err := userRepo.Database.Save(&user).Error
+	return err
+}
