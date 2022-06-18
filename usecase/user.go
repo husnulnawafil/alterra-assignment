@@ -34,3 +34,8 @@ func (userUseCase *UserUseCase) UpdateUser(user entities.User, userID int) error
 	err := userUseCase.UserRepository.UpdateUser(user)
 	return err
 }
+
+func (userUseCase *UserUseCase) GetUserById(userID int) (entities.User, error) {
+	user, err := userUseCase.UserRepository.GetUserById(userID)
+	return user, err
+}

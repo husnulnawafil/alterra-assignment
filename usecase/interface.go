@@ -7,4 +7,5 @@ type UserUseCaseInterface interface {
 	GetListUsers() ([]entities.User, error)
 	DeleteUser(userID int) error
 	UpdateUser(user entities.User, userID int) error
+	GetUserById(userID int) (entities.User, error)
 }
