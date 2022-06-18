@@ -26,3 +26,8 @@ func (userRepo *UserRepository) GetListUsers() ([]entities.User, error) {
 	err := userRepo.Database.Find(&listUser).Error
 	return listUser, err
 }
+
+func (userRepo *UserRepository) DeleteUser(userID int) error {
+	err := userRepo.Database.Delete(&entities.User{}, userID).Error
+	return err
+}
