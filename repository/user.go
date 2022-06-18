@@ -36,3 +36,9 @@ func (userRepo *UserRepository) UpdateUser(user entities.User) error {
 	err := userRepo.Database.Save(&user).Error
 	return err
 }
+
+func (userRepo *UserRepository) GetUserById(userID int) (entities.User, error) {
+	var user entities.User
+	err := userRepo.Database.Where("id = ?", userID).Find(&user).Error
+	return user, err
+}
