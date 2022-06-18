@@ -1,8 +1,9 @@
 package entities
 
 type User struct {
-	Name     string `json:"name" form:"name"`
-	Email    string `json:"email" form:"email"`
-	Phone    string `json:"phone" form:"phone"`
-	Password string `json:"password" form:"password"`
+	Name     string `gorm:"not null" json:"name" form:"name"`
+	Email    string `gorm:"not null;unique" json:"email" form:"email"`
+	Phone    string `gorm:"not null;unique" json:"phone" form:"phone"`
+	Password string `gorm:"not null" json:"password" form:"password"`
+	Role     string `gorm:"default:user" json:"role" form:"role" `
 }
