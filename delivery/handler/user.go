@@ -45,6 +45,6 @@ func (userHandler *UserHandler) GetListUsersHandler() echo.HandlerFunc {
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError, helper.ResponseFailed("Failed to get list of users"))
 		}
-		return ctx.JSON(http.StatusCreated, helper.ResponseSuccess("Successfully get list of users", listUsers))
+		return ctx.JSON(http.StatusOK, helper.ResponseSuccess("Successfully get list of users", listUsers))
 	}
 }
