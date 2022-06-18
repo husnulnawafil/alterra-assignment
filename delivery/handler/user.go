@@ -62,7 +62,9 @@ func (userHandler *UserHandler) GetListUsersHandler() echo.HandlerFunc {
 		if errToken != nil {
 			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
 		}
-		listUsers, err := userHandler.UserUseCase.GetListUsers()
+		search := ctx.QueryParam("search")
+		role := ctx.QueryParam("role")
+		listUsers, err := userHandler.UserUseCase.GetListUsers(search, role)
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError, helper.ResponseFailed("Failed to get list of users"))
 		}
