@@ -38,3 +38,13 @@ func (userHandler *UserHandler) CreateUserHandler() echo.HandlerFunc {
 		return ctx.JSON(http.StatusCreated, helper.ResponseSuccessWithoutData("Successfully create a new user"))
 	}
 }
+
+func (userHandler *UserHandler) GetListUsersHandler() echo.HandlerFunc {
+	return func(ctx echo.Context) error {
+		listUsers, err := userHandler.UserUseCase.GetListUsers()
+		if err != nil {
+			return ctx.JSON(http.StatusInternalServerError, helper.ResponseFailed("Failed to get list of users"))
+		}
+		return ctx.JSON(http.StatusCreated, helper.ResponseSuccess("Successfully get list of users", listUsers))
+	}
+}
