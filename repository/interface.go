@@ -9,3 +9,7 @@ type UserRepositoryInterface interface {
 	UpdateUser(user entities.User) error
 	GetUserById(userID int) (entities.User, error)
 }
+
+type AuthRepositoryInterface interface {
+	Login(email string, password string) (string, error)
+}

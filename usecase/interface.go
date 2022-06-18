@@ -9,3 +9,7 @@ type UserUseCaseInterface interface {
 	UpdateUser(user entities.User, userID int) error
 	GetUserById(userID int) (entities.User, error)
 }
+
+type AuthUseCaseInterface interface {
+	Login(email string, password string) (string, error)
+}
