@@ -6,7 +6,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func RegisterPath(e *echo.Echo, userHandler *handler.UserHandler) {
+func RegisterPath(e *echo.Echo, userHandler *handler.UserHandler, authHandler *handler.AuthHandler) {
+	// AUTHENTICATION ENDPOINTS
+	e.POST("/login", authHandler.LoginHandler())
+
+	// USER ENDPOINTS
 	e.POST("/users", userHandler.CreateUserHandler())
 	e.GET("/users", userHandler.GetListUsersHandler())
 	e.GET("/users/:id", userHandler.GetUserByIdHandler())
