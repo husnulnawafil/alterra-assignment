@@ -21,9 +21,10 @@ func (userRepo *UserRepository) CreateUser(newUser entities.User) error {
 	return err
 }
 
-func (userRepo *UserRepository) GetListUsers() ([]entities.User, error) {
+func (userRepo *UserRepository) GetListUsers(search string) ([]entities.User, error) {
 	var listUser []entities.User
-	err := userRepo.Database.Find(&listUser).Error
+	search = "%" + search + "%"
+	err := userRepo.Database.Where("name LIKE ? OR email LIKE ? OR phone LIKE ?", search, search, search).Find(&listUser).Error
 	return listUser, err
 }
 

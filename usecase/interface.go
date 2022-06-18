@@ -4,7 +4,7 @@ import "alterra/test/entities"
 
 type UserUseCaseInterface interface {
 	CreateUser(newUser entities.User) (int, error)
-	GetListUsers() ([]entities.GetUserResponse, error)
+	GetListUsers(search string) ([]entities.GetUserResponse, error)
 	DeleteUser(userID int) error
 	UpdateUser(user entities.User, userID int) error
 	GetUserById(userID int) (entities.GetUserResponse, error)
