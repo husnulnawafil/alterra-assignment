@@ -3,6 +3,9 @@ package usecase
 import (
 	"alterra/test/entities"
 	"alterra/test/repository"
+	"errors"
+
+	"github.com/jinzhu/copier"
 )
 
 type UserUseCase struct {
@@ -16,13 +19,27 @@ func NewUserUseCase(userRepo repository.UserRepositoryInterface) UserUseCaseInte
 }
 
 func (userUseCase *UserUseCase) CreateUser(newUser entities.User) (int, error) {
+	if newUser.Name == "" {
+		return 1, errors.New("not complete form")
+	}
+	if newUser.Email == "" {
+		return 1, errors.New("not complete form")
+	}
+	if newUser.Phone == "" {
+		return 1, errors.New("not complete form")
+	}
+	if newUser.Password == "" {
+		return 1, errors.New("not complete form")
+	}
 	err := userUseCase.UserRepository.CreateUser(newUser)
 	return 0, err
 }
 
-func (userUseCase *UserUseCase) GetListUsers() ([]entities.User, error) {
+func (userUseCase *UserUseCase) GetListUsers() ([]entities.GetUserResponse, error) {
+	var userResponse []entities.GetUserResponse
 	listUser, err := userUseCase.UserRepository.GetListUsers()
-	return listUser, err
+	copier.Copy(&userResponse, &listUser)
+	return userResponse, err
 }
 
 func (userUseCase *UserUseCase) DeleteUser(userID int) error {
@@ -35,7 +52,9 @@ func (userUseCase *UserUseCase) UpdateUser(user entities.User, userID int) error
 	return err
 }
 
-func (userUseCase *UserUseCase) GetUserById(userID int) (entities.User, error) {
+func (userUseCase *UserUseCase) GetUserById(userID int) (entities.GetUserResponse, error) {
+	var userResponse entities.GetUserResponse
 	user, err := userUseCase.UserRepository.GetUserById(userID)
-	return user, err
+	copier.Copy(&userResponse, &user)
+	return userResponse, err
 }
