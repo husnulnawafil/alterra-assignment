@@ -60,3 +60,18 @@ func (userHandler *UserHandler) DeleteUserHandler() echo.HandlerFunc {
 		return ctx.JSON(http.StatusOK, helper.ResponseSuccessWithoutData(fmt.Sprintf("Successfully delete user with id %v", userID)))
 	}
 }
+
+func (userHandler *UserHandler) UpdateUserHandler() echo.HandlerFunc {
+	return func(ctx echo.Context) error {
+		var updateUser entities.User
+		if errBind := ctx.Bind(&updateUser); errBind != nil {
+			return ctx.JSON(http.StatusBadRequest, helper.ResponseFailed("Invalid request"))
+		}
+		userID, _ := strconv.Atoi(ctx.Param("id"))
+
+		if err := userHandler.UserUseCase.UpdateUser(updateUser, userID); err != nil {
+			return ctx.JSON(http.StatusInternalServerError, helper.ResponseFailed("Failed to update user"))
+		}
+		return ctx.JSON(http.StatusOK, helper.ResponseSuccessWithoutData(fmt.Sprintf("Successfully update user with id %v", userID)))
+	}
+}

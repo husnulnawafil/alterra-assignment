@@ -29,3 +29,8 @@ func (userUseCase *UserUseCase) DeleteUser(userID int) error {
 	err := userUseCase.UserRepository.DeleteUser(userID)
 	return err
 }
+
+func (userUseCase *UserUseCase) UpdateUser(user entities.User, userID int) error {
+	err := userUseCase.UserRepository.UpdateUser(user)
+	return err
+}
