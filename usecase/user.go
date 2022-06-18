@@ -24,3 +24,8 @@ func (userUseCase *UserUseCase) GetListUsers() ([]entities.User, error) {
 	listUser, err := userUseCase.UserRepository.GetListUsers()
 	return listUser, err
 }
+
+func (userUseCase *UserUseCase) DeleteUser(userID int) error {
+	err := userUseCase.UserRepository.DeleteUser(userID)
+	return err
+}
