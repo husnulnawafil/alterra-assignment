@@ -35,9 +35,9 @@ func (userUseCase *UserUseCase) CreateUser(newUser entities.User) (int, error) {
 	return 0, err
 }
 
-func (userUseCase *UserUseCase) GetListUsers(search string) ([]entities.GetUserResponse, error) {
+func (userUseCase *UserUseCase) GetListUsers(search, role string) ([]entities.GetUserResponse, error) {
 	var userResponse []entities.GetUserResponse
-	listUser, err := userUseCase.UserRepository.GetListUsers(search)
+	listUser, err := userUseCase.UserRepository.GetListUsers(search, role)
 	copier.Copy(&userResponse, &listUser)
 	return userResponse, err
 }
