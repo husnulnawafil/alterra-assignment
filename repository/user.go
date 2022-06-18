@@ -20,3 +20,9 @@ func (userRepo *UserRepository) CreateUser(newUser entities.User) error {
 	err := userRepo.Database.Create(&newUser).Error
 	return err
 }
+
+func (userRepo *UserRepository) GetListUsers() ([]entities.User, error) {
+	var listUser []entities.User
+	err := userRepo.Database.Find(&listUser).Error
+	return listUser, err
+}
