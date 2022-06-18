@@ -4,7 +4,9 @@ import (
 	"alterra/test/delivery/helper"
 	"alterra/test/entities"
 	"alterra/test/usecase"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -46,5 +48,15 @@ func (userHandler *UserHandler) GetListUsersHandler() echo.HandlerFunc {
 			return ctx.JSON(http.StatusInternalServerError, helper.ResponseFailed("Failed to get list of users"))
 		}
 		return ctx.JSON(http.StatusOK, helper.ResponseSuccess("Successfully get list of users", listUsers))
+	}
+}
+
+func (userHandler *UserHandler) DeleteUserHandler() echo.HandlerFunc {
+	return func(ctx echo.Context) error {
+		userID, _ := strconv.Atoi(ctx.Param("id"))
+		if err := userHandler.UserUseCase.DeleteUser(userID); err != nil {
+			return ctx.JSON(http.StatusInternalServerError, helper.ResponseFailed("Failed to delete user"))
+		}
+		return ctx.JSON(http.StatusOK, helper.ResponseSuccessWithoutData(fmt.Sprintf("Successfully delete user with id %v", userID)))
 	}
 }
