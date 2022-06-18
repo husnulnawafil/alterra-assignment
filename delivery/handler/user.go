@@ -2,6 +2,7 @@ package handler
 
 import (
 	"alterra/test/delivery/helper"
+	"alterra/test/delivery/middlewares"
 	"alterra/test/entities"
 	"alterra/test/usecase"
 	"fmt"
@@ -23,6 +24,19 @@ func NewUserHandler(userUseCase usecase.UserUseCaseInterface) *UserHandler {
 
 func (userHandler *UserHandler) CreateUserHandler() echo.HandlerFunc {
 	return func(ctx echo.Context) error {
+		// check login status
+		_, errToken := middlewares.ExtractUserID(ctx)
+		if errToken != nil {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
+		// check role
+		role, errRole := middlewares.ExtractRole(ctx)
+		if errRole != nil {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
+		if role != "admin" {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
 		var newUser entities.User
 		if errBind := ctx.Bind(&newUser); errBind != nil {
 			return ctx.JSON(http.StatusBadRequest, helper.ResponseFailed("Invalid request"))
@@ -43,6 +57,11 @@ func (userHandler *UserHandler) CreateUserHandler() echo.HandlerFunc {
 
 func (userHandler *UserHandler) GetListUsersHandler() echo.HandlerFunc {
 	return func(ctx echo.Context) error {
+		// check login status
+		_, errToken := middlewares.ExtractUserID(ctx)
+		if errToken != nil {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
 		listUsers, err := userHandler.UserUseCase.GetListUsers()
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError, helper.ResponseFailed("Failed to get list of users"))
@@ -53,6 +72,19 @@ func (userHandler *UserHandler) GetListUsersHandler() echo.HandlerFunc {
 
 func (userHandler *UserHandler) DeleteUserHandler() echo.HandlerFunc {
 	return func(ctx echo.Context) error {
+		// check login status
+		_, errToken := middlewares.ExtractUserID(ctx)
+		if errToken != nil {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
+		// check role
+		role, errRole := middlewares.ExtractRole(ctx)
+		if errRole != nil {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
+		if role != "admin" {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
 		userID, _ := strconv.Atoi(ctx.Param("id"))
 		if err := userHandler.UserUseCase.DeleteUser(userID); err != nil {
 			return ctx.JSON(http.StatusInternalServerError, helper.ResponseFailed("Failed to delete user"))
@@ -63,6 +95,19 @@ func (userHandler *UserHandler) DeleteUserHandler() echo.HandlerFunc {
 
 func (userHandler *UserHandler) UpdateUserHandler() echo.HandlerFunc {
 	return func(ctx echo.Context) error {
+		// check login status
+		_, errToken := middlewares.ExtractUserID(ctx)
+		if errToken != nil {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
+		// check role
+		role, errRole := middlewares.ExtractRole(ctx)
+		if errRole != nil {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
+		if role != "admin" {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
 		var updateUser entities.User
 		if errBind := ctx.Bind(&updateUser); errBind != nil {
 			return ctx.JSON(http.StatusBadRequest, helper.ResponseFailed("Invalid request"))
@@ -78,6 +123,11 @@ func (userHandler *UserHandler) UpdateUserHandler() echo.HandlerFunc {
 
 func (userHandler *UserHandler) GetUserByIdHandler() echo.HandlerFunc {
 	return func(ctx echo.Context) error {
+		// check login status
+		_, errToken := middlewares.ExtractUserID(ctx)
+		if errToken != nil {
+			return ctx.JSON(http.StatusUnauthorized, helper.ResponseFailed("Unauthorized"))
+		}
 		userID, _ := strconv.Atoi(ctx.Param("id"))
 		user, err := userHandler.UserUseCase.GetUserById(userID)
 		if err != nil {
