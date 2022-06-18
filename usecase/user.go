@@ -19,3 +19,8 @@ func (userUseCase *UserUseCase) CreateUser(newUser entities.User) (int, error) {
 	err := userUseCase.UserRepository.CreateUser(newUser)
 	return 0, err
 }
+
+func (userUseCase *UserUseCase) GetListUsers() ([]entities.User, error) {
+	listUser, err := userUseCase.UserRepository.GetListUsers()
+	return listUser, err
+}

@@ -7,5 +7,6 @@ import (
 )
 
 func RegisterPath(e *echo.Echo, userHandler *handler.UserHandler) {
-	e.POST("/user", userHandler.CreateUserHandler())
+	e.POST("/users", userHandler.CreateUserHandler())
+	e.GET("/users", userHandler.GetListUsersHandler())
 }
