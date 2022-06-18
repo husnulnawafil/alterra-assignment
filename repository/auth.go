@@ -3,6 +3,7 @@ package repository
 import (
 	"alterra/test/delivery/middlewares"
 	"alterra/test/entities"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -19,8 +20,12 @@ func NewAuthRepository(database *gorm.DB) *AuthRepository {
 
 func (authRepo *AuthRepository) Login(email string, password string) (string, error) {
 	var user entities.User
-	if err := authRepo.Database.Where("email = ?", email).Find(&user).Error; err != nil {
-		return "", err
+	auth := authRepo.Database.Where("email = ?", email).Find(&user)
+	if auth.Error != nil {
+		return "", auth.Error
+	}
+	if auth.RowsAffected == 0 {
+		return "", errors.New("user not found")
 	}
 
 	token, err := middlewares.CreateToken(int(user.ID), user.Name, user.Role)
