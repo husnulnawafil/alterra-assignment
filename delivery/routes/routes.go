@@ -12,7 +12,7 @@ func RegisterPath(e *echo.Echo, userHandler *handler.UserHandler, authHandler *h
 	e.POST("/login", authHandler.LoginHandler())
 
 	// USER ENDPOINTS
-	e.POST("/users", userHandler.CreateUserHandler(), middlewares.JWTMiddleware())
+	e.POST("/users", userHandler.CreateUserHandler())
 	e.GET("/users", userHandler.GetListUsersHandler(), middlewares.JWTMiddleware())
 	e.GET("/users/:id", userHandler.GetUserByIdHandler(), middlewares.JWTMiddleware())
 	e.DELETE("/users/:id", userHandler.DeleteUserHandler(), middlewares.JWTMiddleware())
